@@ -61,6 +61,7 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
+        {/* Down below using children prop */}
         <Box>
           <MovieList movies={movies} />
         </Box>
@@ -68,6 +69,16 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
         </Box>
+        {/* Alternate to above Explicit Prop */}
+        {/* <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        /> */}
       </Main>
     </>
   );
