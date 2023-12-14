@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tempMovieData = [
   {
@@ -50,74 +50,24 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "";
 export default function App() {
-  //old way
-  // useEffect(function () {
-  //   fetch("http://www.omdbapi.com/?apikey=[yourkey]&s=Penthouse")
-  //     .then((res) => res.json)
-  //     .then((data) => setMovies(data.Search));
-  // }, []);
-
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
-  const [query, setQuery] = useState("");
-  // const tempQuery = "penthouse";
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
-
-  useEffect(
-    function () {
-      async function fetchMovies() {
-        try {
-          setIsLoading(true);
-          setError("");
-          const res = fetch(`http://img.omdbapi.com/?apikey=${KEY}&s=${query}`);
-          if (!res.ok) throw new Error("Something went wrong");
-          const data = await res.json();
-          if (data.Response === "False") throw new Error("Movie not found");
-          setMovies(data.Search);
-          // setIsLoading(false);
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      if (query.length < 3) {
-        setMovies([]);
-        setError("");
-        return;
-      }
-      fetchMovies();
-    },
-    [query]
-  );
   return (
     <>
       <NavBar>
         <Logo />
-        <Search query={query} setQuery={setQuery} />
+        <Search />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
         {/* Down below using children prop */}
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />}</Box> */}
-          {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
-          {error && <ErrorMessage message={error} />}
+          <MovieList movies={movies} />
         </Box>
         <Box>
-          {selectedId ? (
-            <MovieDetails selectedId={selectedId} />
-          ) : (
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          )}
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
         </Box>
         {/* Alternate to above Explicit Prop */}
         {/* <Box element={<MovieList movies={movies} />} />
@@ -134,18 +84,6 @@ export default function App() {
   );
 }
 
-function Loader() {
-  return <p className="loader">Loading...</p>;
-}
-
-function ErrorMessage({ message }) {
-  return (
-    <p className="error">
-      <span>⛔</span>
-      {message}
-    </p>
-  );
-}
 // Structual Component
 
 function NavBar({ children }) {
@@ -168,7 +106,8 @@ function Logo() {
 }
 
 // State Component
-function Search({ query, setQuery }) {
+function Search() {
+  const [query, setQuery] = useState("");
   return (
     <input
       className="search"
@@ -278,10 +217,6 @@ function WatchedMovie({ movie }) {
       </div>
     </li>
   );
-}
-
-function MovieDetails({ selectedId }) {
-  return <div className="">{selectedId}</div>;
 }
 
 function WatchedSummary({ watched }) {
