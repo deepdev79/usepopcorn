@@ -11,16 +11,16 @@ const starConatinerStyle = {
   display: "flex",
 };
 
-// TO ensure maxRating is number
-StarRating.propTypes = {
-  maxRating: PropTypes.number,
-  defaultRating: PropTypes.number,
-  color: PropTypes.string,
-  size: PropTypes.number,
-  messages: PropTypes.array,
-  className: PropTypes.string,
-  onSetRating: PropTypes.func,
-};
+// // TO ensure maxRating is number
+// StarRating.propTypes = {
+//   maxRating: PropTypes.number,
+//   defaultRating: PropTypes.number,
+//   color: PropTypes.string,
+//   size: PropTypes.number,
+//   messages: PropTypes.array,
+//   className: PropTypes.string,
+//   onSetRating: PropTypes.func,
+// };
 
 // =5 setting default
 export default function StarRating({
